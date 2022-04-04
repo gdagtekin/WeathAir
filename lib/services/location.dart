@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+const GPS_DISABLE = 1;
+const LOCATION_PERMISSION_DENIED = 2;
+const LOCATION_PERMISSION_DENIED_FOREVER = 3;
+
 class Location {
   late double latitude;
   late double longitude;
@@ -21,6 +25,7 @@ class Location {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
+      showSnackMessage(context, GPS_DISABLE);
       return Future.error('Location services are disabled.');
     }
 
@@ -33,14 +38,14 @@ class Location {
         // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
-        showSnackMessage(context, false);
+        showSnackMessage(context, LOCATION_PERMISSION_DENIED);
         return Future.error('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
-      showSnackMessage(context, true);
+      showSnackMessage(context, LOCATION_PERMISSION_DENIED_FOREVER);
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
@@ -54,11 +59,19 @@ class Location {
             });
   }
 
-  void showSnackMessage(BuildContext context, bool isForever){
+  void showSnackMessage(BuildContext context, int type) {
     var t = AppLocalizations.of(context);
+    String text = "";
+    if (type == GPS_DISABLE) {
+      text = t!.gpsDisable;
+    } else if (type == LOCATION_PERMISSION_DENIED) {
+      text = t!.locationDenied;
+    } else if (type == LOCATION_PERMISSION_DENIED_FOREVER) {
+      text = t!.locationDeniedForever;
+    }
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(
-        isForever ? t!.locationDeniedForever : t!.locationDenied,
+        text,
         style: kSubHeadlinePrimaryTextStyle,
       ),
       duration: const Duration(days: 365),

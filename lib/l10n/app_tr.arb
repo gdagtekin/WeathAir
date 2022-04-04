@@ -29,5 +29,6 @@
   "saturday": "Cumartesi",
   "sunday": "Pazar",
   "locationDenied": "Uygulamayı kullanabilmeniz için Lokasyon izni vermeniz gerekmektedir.",
-  "locationDeniedForever": "Uygulamayı kullanabilmeniz için Lokasyon izni vermeniz gerekmektedir. Lütfen uygulama ayarlarında Lokasyon iznini veriniz."
+  "locationDeniedForever": "Uygulamayı kullanabilmeniz için Lokasyon izni vermeniz gerekmektedir. Lütfen uygulama ayarlarında Lokasyon iznini veriniz.",
+  "gpsDisable": "Lütfen GPS'inizi açınız."
 }
