@@ -30,5 +30,6 @@
   "sunday": "Pazar",
   "locationDenied": "Uygulamayı kullanabilmeniz için Lokasyon izni vermeniz gerekmektedir.",
   "locationDeniedForever": "Uygulamayı kullanabilmeniz için Lokasyon izni vermeniz gerekmektedir. Lütfen uygulama ayarlarında Lokasyon iznini veriniz.",
-  "gpsDisable": "Lütfen GPS'inizi açınız."
+  "gpsDisable": "Lütfen GPS'inizi açınız.",
+  "defaultLocation": "Konumunuz algılanamadı. Lütfen konumunuzu ekranının üstünde bulunan şehir ismine tıklayarak manuel olarak giriniz."
 }

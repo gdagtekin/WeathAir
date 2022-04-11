@@ -27,6 +27,10 @@ const kMargin2x = 8.0;
 const kMargin3x = 12.0;
 const kMargin4x = 16.0;
 
+const isLocationManuel = "IS_LOCATION_MANUEL";
+const manuelLatitude = "LATITUDE";
+const manuelLongitude = "LONGITUDE";
+
 const kTemperatureTextStyle = TextStyle(
     color: kPrimaryTextColor,
     fontSize: 80.0,

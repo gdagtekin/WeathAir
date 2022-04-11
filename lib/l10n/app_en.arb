@@ -30,5 +30,6 @@
   "sunday": "Sunday",
   "locationDenied": "You need to give location permission to use the application.",
   "locationDeniedForever": "You need to give location permission to use the application. Please give Location permission in application settings.",
-  "gpsDisable": "Please enable your GPS."
+  "gpsDisable": "Please enable your GPS.",
+  "defaultLocation": "Your location could not be detected. Please enter your location manually by clicking the city name at the top of the screen."
 }

@@ -6,6 +6,8 @@ import 'package:clima/utilities/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const apiKey = 'YOUR_API_KEY';
 const openWeatherOneCallURL = 'https://api.openweathermap.org/data/2.5/onecall';
@@ -15,6 +17,7 @@ const openWeatherCurrentWeatherURL =
 num latitude = 0.0;
 num longitude = 0.0;
 bool isPass = false;
+final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
 class WeatherModel {
   Future<dynamic> getLocation(BuildContext context) async {
@@ -24,6 +27,7 @@ class WeatherModel {
     latitude = location.latitude;
     longitude = location.longitude;
 
+    clearManuelLocation();
     print(latitude.toString() + " " + longitude.toString());
     return getOneCallWeather();
   }
@@ -32,7 +36,18 @@ class WeatherModel {
     isPass = false;
     NetworkHelper networkHelper = NetworkHelper(
         '$openWeatherOneCallURL?lat=$latitude&lon=$longitude&exclude=minutely,alert&units=metric&appid=$apiKey');
-    
+
+    WeatherResponse? weatherData = await networkHelper.getOneCallWeather();
+    return weatherData;
+  }
+
+  Future<dynamic> getLocationWithLatLon(num lat, num lon) async {
+    latitude = lat;
+    longitude = lon;
+
+    isPass = false;
+    NetworkHelper networkHelper = NetworkHelper(
+        '$openWeatherOneCallURL?lat=$latitude&lon=$longitude&exclude=minutely,alert&units=metric&appid=$apiKey');
 
     WeatherResponse? weatherData = await networkHelper.getOneCallWeather();
     return weatherData;
@@ -55,10 +70,25 @@ class WeatherModel {
     if (weatherData.toString().isNotEmpty) {
       latitude = weatherData['coord']['lat'];
       longitude = weatherData['coord']['lon'];
+      saveManuelLocation(latitude, longitude);
       print(latitude.toString() + " " + longitude.toString());
       return weatherData['name'];
     }
     return "";
+  }
+
+  Future<void> saveManuelLocation(num lat, num lon) async {
+    final SharedPreferences prefs = await _prefs;
+    await prefs.setBool(isLocationManuel, true);
+    await prefs.setString(manuelLatitude, lat.toString());
+    await prefs.setString(manuelLongitude, lon.toString());
+  }
+
+  Future<void> clearManuelLocation() async {
+    final SharedPreferences prefs = await _prefs;
+    await prefs.setBool(isLocationManuel, false);
+    await prefs.setString(manuelLatitude, "");
+    await prefs.setString(manuelLongitude, "");
   }
 
   String getWeatherAnimation(int id, bool isNight) {

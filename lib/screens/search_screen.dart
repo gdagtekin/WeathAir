@@ -116,11 +116,15 @@ class _SearchViewState extends State<SearchView> with TickerProviderStateMixin {
 
     Future<void> getLocationWeather() async {
       showLoadingIndicator();
-      WeatherResponse weatherData = await weather.getLocation(context);
-      String locationName = await WeatherModel().getLocationName();
-      weatherData.locationName = locationName;
-      hideOpenDialog();
-      Navigator.pop(context, weatherData);
+      try {
+        WeatherResponse weatherData = await weather.getLocation(context);
+        String locationName = await WeatherModel().getLocationName();
+        weatherData.locationName = locationName;
+        hideOpenDialog();
+        Navigator.pop(context, weatherData);
+      } catch (e) {
+        hideOpenDialog();
+      }
     }
 
     return Scaffold(

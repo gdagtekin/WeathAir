@@ -74,7 +74,7 @@ class Location {
         text,
         style: kSubHeadlinePrimaryTextStyle,
       ),
-      duration: const Duration(days: 365),
+      duration: const Duration(seconds: 5),
     ));
   }
 }
